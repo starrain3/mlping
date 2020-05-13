@@ -3,7 +3,7 @@ The template of the main script of the machine learning process
 """
 import pickle
 from os import path
-
+import statistics 
 import numpy as np
 from mlgame.communication import ml as comm
 
@@ -46,7 +46,9 @@ def ml_loop(self):
     comm.ml_ready()
     
 
-
+    z=0
+    tmp1 =0
+    tmp2 =0
     # 3. Start an endless loop.
     while True:  #(frame_ary, Balls, BlockerPos, P1PlatformPos, commands_ary, direction, vx, vy, des)目前學習對象 BALLXY BLOCKERX  DIRECT VX VY
         # 3.1. Receive the scene information sent from the game process.
@@ -85,6 +87,8 @@ def ml_loop(self):
                 
             y = clf.predict(feature)
             x = scene_info['platform_1P'][0]
+            if(z>3):
+                y = median([tmp1,tmp2, y])
             if (y-x)>20:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
                 print('RIGHT')
@@ -104,4 +108,7 @@ def ml_loop(self):
             # elif y == 2:
             #     comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
             #     print('RIGHT')
+        z=z+1   
+        tmp1=tmp2
+        tmp2 = y 
         tmp = scene_info['ball']
