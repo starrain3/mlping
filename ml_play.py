@@ -83,11 +83,11 @@ def ml_loop(self):
         else:
             y = clf.predict(feature)
             x = scene_info['platform_1P'][0]
-            if (y-x)>19.5:
+            if (y-x)>18:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
                 print('RIGHT')
             
-            elif (y-x)<19.5:
+            elif (y-x)<18:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_LEFT"})
                 print('LEFT')
             else:
