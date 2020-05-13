@@ -46,9 +46,6 @@ def ml_loop(self):
     comm.ml_ready()
     
 
-    z=0
-    tmp1 =0
-    tmp2 =0
     # 3. Start an endless loop.
     while True:  #(frame_ary, Balls, BlockerPos, P1PlatformPos, commands_ary, direction, vx, vy, des)目前學習對象 BALLXY BLOCKERX  DIRECT VX VY
         # 3.1. Receive the scene information sent from the game process.
@@ -84,16 +81,13 @@ def ml_loop(self):
             comm.send_to_game({"frame": scene_info["frame"], "command": "SERVE_TO_LEFT"})
             ball_served = True
         else:
-                
             y = clf.predict(feature)
             x = scene_info['platform_1P'][0]
-            if(z>3):
-                y = median([tmp1,tmp2, y])
-            if (y-x)>17:
+            if (y-x)>18:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
                 print('RIGHT')
             
-            elif (y-x)<17:
+            elif (y-x)<18:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_LEFT"})
                 print('LEFT')
             else:
@@ -108,7 +102,4 @@ def ml_loop(self):
             # elif y == 2:
             #     comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
             #     print('RIGHT')
-        z=z+1   
-        tmp1=tmp2
-        tmp2 = y 
         tmp = scene_info['ball']
