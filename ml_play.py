@@ -83,7 +83,7 @@ def ml_loop(self):
         else:
             y = clf.predict(feature)
             x = scene_info['platform_1P'][0]
-            if(y>470):
+            if(y>465):
                 y = 480
             if (y-x)>20:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
