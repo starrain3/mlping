@@ -89,11 +89,11 @@ def ml_loop(self):
             x = scene_info['platform_1P'][0]
             if(z>3):
                 y = median([tmp1,tmp2, y])
-            if (y-x)>20:
+            if (y-x)>17:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_RIGHT"})
                 print('RIGHT')
             
-            elif (y-x)<20:
+            elif (y-x)<17:
                 comm.send_to_game({"frame": scene_info["frame"], "command": "MOVE_LEFT"})
                 print('LEFT')
             else:
